@@ -23,8 +23,8 @@ func NewHandler(store types.TaskStore, userStore types.UserStore) *Handler {
 
 func (h *Handler) RegisterRoutes(router *mux.Router) {
 	router.HandleFunc("/task", auth.WithJWTAuth(h.handleCreateTask, h.userStore)).Methods("POST")
-	router.HandleFunc("/tasks/{userID}", auth.WithJWTAuth(h.handleGetAllTasksByUserID, h.userStore)).Methods("GET")
-	router.HandleFunc("/tasks/{taskID}", auth.WithJWTAuth(h.handleGetTaskByID, h.userStore)).Methods("GET")
+	router.HandleFunc("/tasks", auth.WithJWTAuth(h.handleGetAllTasksByUserID, h.userStore)).Methods("GET")
+	router.HandleFunc("/task/{taskID}", auth.WithJWTAuth(h.handleGetTaskByID, h.userStore)).Methods("GET")
 }
 
 func (h *Handler) handleCreateTask(w http.ResponseWriter, r *http.Request) {
@@ -41,7 +41,7 @@ func (h *Handler) handleCreateTask(w http.ResponseWriter, r *http.Request) {
 	}
 
 	err := h.store.CreateTask(types.Task{
-		UserID:        payload.UserID,
+		UserID:        auth.GetUserIDFromContext(r.Context()),
 		Days:          payload.Days,
 		MinimumRating: payload.MinimumRating,
 		MaximumRating: payload.MaximumRating,
@@ -56,18 +56,8 @@ func (h *Handler) handleCreateTask(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) handleGetAllTasksByUserID(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	str, ok := vars["UserID"]
-	if !ok {
-		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("missing task ID"))
-		return
-	}
 
-	UserID, err := strconv.Atoi(str)
-	if err != nil {
-		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("invalid user ID"))
-		return
-	}
+	UserID := auth.GetUserIDFromContext(r.Context())
 
 	tasks, err := h.store.GetAllTasksByUserID(UserID)
 	if err != nil {

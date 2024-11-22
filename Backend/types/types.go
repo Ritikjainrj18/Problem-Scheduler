@@ -15,15 +15,15 @@ type TaskStore interface {
 }
 
 type Task struct {
-	ID            int       `json:"id"`
-	UserID        int       `json:"userId"`
-	Days          int       `json:"days"`
-	MinimumRating int       `json:"minimumRating"`
-	MaximumRating int       `json:"maximumRating"`
-	Retries       int       `json:"retries" `
-	CreatedAt     time.Time `json:"createdAt"`
-	PickedAt      time.Time `json:"pickedAt" `
-	ExecutedAt    time.Time `json:"executedAt" `
+	ID            int        `json:"id"`
+	UserID        int        `json:"userId"`
+	Days          int        `json:"days"`
+	MinimumRating int        `json:"minimumRating"`
+	MaximumRating int        `json:"maximumRating"`
+	Retries       int        `json:"retries" `
+	CreatedAt     time.Time  `json:"createdAt"`
+	PickedAt      *time.Time `json:"pickedAt" `
+	ExecutedAt    *time.Time `json:"executedAt" `
 	//Name          string    `json:"name" validate:"required"`
 	//Email         string    `json:"email" validate:"required"`
 }
@@ -38,7 +38,7 @@ type User struct {
 }
 
 type CreateTaskPayload struct {
-	UserID        int `json:"userId" validate:"required"`
+	//UserID        int `json:"userId" validate:"required"`
 	Days          int `json:"days" validate:"required"`
 	MinimumRating int `json:"minimumRating" validate:"required"`
 	MaximumRating int `json:"maximumRating" validate:"required"`

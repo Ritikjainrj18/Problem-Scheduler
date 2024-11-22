@@ -2,6 +2,7 @@ package task
 
 import (
 	"database/sql"
+	"fmt"
 	"ritikjainrj18/backend/types"
 )
 
@@ -49,6 +50,9 @@ func (s *Store) GetTaskByID(id int) (*types.Task, error) {
 		if err != nil {
 			return nil, err
 		}
+	}
+	if task.ID == 0 {
+		return nil, fmt.Errorf("task not found")
 	}
 	return task, nil
 }
