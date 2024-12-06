@@ -27,9 +27,11 @@ func (s *Store) GetAllTasksByUserID(userId int) ([]types.Task, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	tasks := make([]types.Task, 0)
+	defer rows.Close()
 	for rows.Next() {
-		t, err := scanRowIntoTask(rows)
+		t, err := ScanRowIntoTask(rows)
 		if err != nil {
 			return nil, err
 		}
@@ -45,8 +47,9 @@ func (s *Store) GetTaskByID(id int) (*types.Task, error) {
 	}
 
 	task := new(types.Task)
+	defer rows.Close()
 	for rows.Next() {
-		task, err = scanRowIntoTask(rows)
+		task, err = ScanRowIntoTask(rows)
 		if err != nil {
 			return nil, err
 		}
@@ -56,7 +59,7 @@ func (s *Store) GetTaskByID(id int) (*types.Task, error) {
 	}
 	return task, nil
 }
-func scanRowIntoTask(rows *sql.Rows) (*types.Task, error) {
+func ScanRowIntoTask(rows *sql.Rows) (*types.Task, error) {
 	task := new(types.Task)
 	err := rows.Scan(
 		&task.ID,
@@ -65,7 +68,7 @@ func scanRowIntoTask(rows *sql.Rows) (*types.Task, error) {
 		&task.MinimumRating,
 		&task.MaximumRating,
 		&task.Retries,
-		&task.CreatedAt,
+		&task.ScheduledAt,
 		&task.PickedAt,
 		&task.ExecutedAt,
 	)

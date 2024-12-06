@@ -21,20 +21,17 @@ type Task struct {
 	MinimumRating int        `json:"minimumRating"`
 	MaximumRating int        `json:"maximumRating"`
 	Retries       int        `json:"retries" `
-	CreatedAt     time.Time  `json:"createdAt"`
+	ScheduledAt   time.Time  `json:"scheduledAt"`
 	PickedAt      *time.Time `json:"pickedAt" `
 	ExecutedAt    *time.Time `json:"executedAt" `
-	//Name          string    `json:"name" validate:"required"`
-	//Email         string    `json:"email" validate:"required"`
 }
 
 type User struct {
-	ID        int       `json:"id"`
-	FirstName string    `json:"firstName"`
-	LastName  string    `json:"lastName"`
-	Email     string    `json:"email"`
-	Password  string    `json:"-"`
-	CreatedAt time.Time `json:"createdAt"`
+	ID        int    `json:"id"`
+	FirstName string `json:"firstName"`
+	LastName  string `json:"lastName"`
+	Email     string `json:"email"`
+	Password  string `json:"-"`
 }
 
 type CreateTaskPayload struct {

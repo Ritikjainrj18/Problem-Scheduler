@@ -24,8 +24,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	initStorage(db)
+	defer db.Close()
 
 	server := api.NewAPIServer(":8080", db)
 	if err := server.Run(); err != nil {
@@ -39,5 +39,5 @@ func initStorage(db *sql.DB) {
 		log.Fatal(err)
 	}
 
-	log.Println("DB: Successfully connected!")
+	log.Println("API server: Successfully connected to DB!")
 }
