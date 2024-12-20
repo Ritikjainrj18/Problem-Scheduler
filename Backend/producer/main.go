@@ -2,13 +2,14 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
+	"encoding/json"
 	"log"
 	"ritikjainrj18/backend/config"
 	"ritikjainrj18/backend/db"
 	"ritikjainrj18/backend/service/task"
 	"ritikjainrj18/backend/types"
 
+	"github.com/IBM/sarama"
 	"github.com/go-sql-driver/mysql"
 )
 
@@ -59,8 +60,19 @@ func main() {
 		rows.Close()
 
 		for _, tasks := range tasks {
-			fmt.Println("Processing task:", tasks)
-			// push to kafka
+			log.Println("Processing task:", tasks)
+
+			taskBytes, err := json.Marshal(tasks)
+			if err != nil {
+				log.Println("Failed to serialize task:", err)
+				continue
+			}
+
+			err = PushOrdersToQueue("problem-email", taskBytes)
+			if err != nil {
+				log.Println("Unable to push to broker", err)
+				continue
+			}
 			_, err = tx.Exec("UPDATE tasks SET pickedAt = NOW() WHERE id = ?", tasks.ID)
 			if err != nil {
 				log.Println("Failed to update task status: ", err)
@@ -83,6 +95,44 @@ func initStorage(db *sql.DB) {
 		log.Fatal(err)
 	}
 	log.Println("Producer: Successfully connected to DB!")
+}
+
+func ConnectProducer(brokers []string) (sarama.SyncProducer, error) {
+	config := sarama.NewConfig()
+	config.Producer.RequiredAcks = sarama.WaitForAll
+	config.Producer.Retry.Max = 5
+	config.Producer.Return.Successes = true
+
+	return sarama.NewSyncProducer(brokers, config)
+}
+
+func PushOrdersToQueue(topic string, message []byte) error {
+	brokers := []string{"localhost:9092"}
+
+	producer, err := ConnectProducer(brokers)
+
+	if err != nil {
+		return err
+	}
+
+	defer producer.Close()
+
+	msg := &sarama.ProducerMessage{
+		Topic: topic,
+		Value: sarama.StringEncoder(message),
+	}
+
+	partition, offset, err := producer.SendMessage(msg)
+	if err != nil {
+		return err
+	}
+
+	log.Printf("Order is stored in topic(%s)/partition(%d)/offset(%d)\n",
+		topic,
+		partition,
+		offset)
+
+	return nil
 }
 
 // PICKER and executer are differnet
