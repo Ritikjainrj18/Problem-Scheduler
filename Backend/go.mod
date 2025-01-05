@@ -1,4 +1,5 @@
-module ritikjainrj18/backend
+module module github.com/Ritikjainrj18/Problem-Scheduler/Backend
+
 
 go 1.23
 
