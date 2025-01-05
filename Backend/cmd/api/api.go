@@ -4,8 +4,9 @@ import (
 	"database/sql"
 	"log"
 	"net/http"
-	"ritikjainrj18/backend/service/task"
-	"ritikjainrj18/backend/service/user"
+
+	"github.com/Ritikjainrj18/Problem-Scheduler/Backend/service/task"
+	"github.com/Ritikjainrj18/Problem-Scheduler/Backend/service/user"
 
 	"github.com/gorilla/mux"
 )

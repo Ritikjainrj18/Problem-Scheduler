@@ -3,10 +3,10 @@ package main
 import (
 	"database/sql"
 	"log"
-	"ritikjainrj18/backend/cmd/api"
-	"ritikjainrj18/backend/config"
-	"ritikjainrj18/backend/db"
 
+	"github.com/Ritikjainrj18/Problem-Scheduler/Backend/cmd/api"
+	"github.com/Ritikjainrj18/Problem-Scheduler/Backend/config"
+	"github.com/Ritikjainrj18/Problem-Scheduler/Backend/db"
 	"github.com/go-sql-driver/mysql"
 )
 

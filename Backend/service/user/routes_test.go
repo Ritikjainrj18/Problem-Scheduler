@@ -6,8 +6,9 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
-	"ritikjainrj18/backend/types"
 	"testing"
+
+	"github.com/Ritikjainrj18/Problem-Scheduler/Backend/types"
 
 	"github.com/gorilla/mux"
 )

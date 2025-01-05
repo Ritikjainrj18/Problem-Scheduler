@@ -3,7 +3,8 @@ package task
 import (
 	"database/sql"
 	"fmt"
-	"ritikjainrj18/backend/types"
+
+	"github.com/Ritikjainrj18/Problem-Scheduler/Backend/types"
 )
 
 type Store struct {

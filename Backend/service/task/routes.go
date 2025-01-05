@@ -3,10 +3,11 @@ package task
 import (
 	"fmt"
 	"net/http"
-	"ritikjainrj18/backend/service/auth"
-	"ritikjainrj18/backend/types"
-	"ritikjainrj18/backend/utils"
 	"strconv"
+
+	"github.com/Ritikjainrj18/Problem-Scheduler/Backend/service/auth"
+	"github.com/Ritikjainrj18/Problem-Scheduler/Backend/types"
+	"github.com/Ritikjainrj18/Problem-Scheduler/Backend/utils"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gorilla/mux"

@@ -3,8 +3,9 @@ package main
 import (
 	"log"
 	"os"
-	"ritikjainrj18/backend/config"
-	"ritikjainrj18/backend/db"
+
+	"github.com/Ritikjainrj18/Problem-Scheduler/Backend/config"
+	"github.com/Ritikjainrj18/Problem-Scheduler/Backend/db"
 
 	mysqlCfg "github.com/go-sql-driver/mysql"
 	"github.com/golang-migrate/migrate/v4"

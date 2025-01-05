@@ -4,7 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
-	"ritikjainrj18/backend/types"
+
+	"github.com/Ritikjainrj18/Problem-Scheduler/Backend/types"
 )
 
 type Store struct {

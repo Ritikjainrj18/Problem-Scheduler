@@ -5,11 +5,12 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"ritikjainrj18/backend/config"
-	"ritikjainrj18/backend/types"
-	"ritikjainrj18/backend/utils"
 	"strconv"
 	"time"
+
+	"github.com/Ritikjainrj18/Problem-Scheduler/Backend/config"
+	"github.com/Ritikjainrj18/Problem-Scheduler/Backend/types"
+	"github.com/Ritikjainrj18/Problem-Scheduler/Backend/utils"
 
 	"github.com/golang-jwt/jwt"
 )
