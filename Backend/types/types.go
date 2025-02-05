@@ -24,6 +24,7 @@ type Task struct {
 	ScheduledAt   time.Time  `json:"scheduledAt"`
 	PickedAt      *time.Time `json:"pickedAt" `
 	ExecutedAt    *time.Time `json:"executedAt" `
+	ProblemURL    string
 }
 
 type User struct {
