@@ -18,7 +18,7 @@ func main() {
 	db, err := db.NewMySQLStorage(mysqlCfg.Config{
 		User:                 config.Envs.DBUser,
 		Passwd:               config.Envs.DBPassword,
-		Addr:                 config.Envs.DBAddress,
+		Addr:                 "127.0.0.1",
 		DBName:               config.Envs.DBName,
 		Net:                  "tcp",
 		AllowNativePasswords: true,

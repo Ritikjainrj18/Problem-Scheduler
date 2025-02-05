@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"log"
 
 	"github.com/Ritikjainrj18/Problem-Scheduler/Backend/config"
@@ -24,6 +25,7 @@ func main() {
 		AllowNativePasswords: true,
 		ParseTime:            true,
 	})
+	fmt.Println(config.Envs.DBAddress)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -31,7 +33,7 @@ func main() {
 	defer db.Close()
 
 	// connect to kafka
-	brokers := []string{"localhost:9092"}
+	brokers := []string{"kafka:9092"}
 	producer, err := ConnectProducer(brokers)
 	if err != nil {
 		log.Fatal(err)
@@ -71,6 +73,8 @@ func main() {
 
 		for _, tasks := range tasks {
 			log.Println("Processing task:", tasks)
+
+			tasks.ProblemURL = getProblemUrl(tasks.MinimumRating, tasks.MaximumRating)
 
 			taskBytes, err := json.Marshal(tasks)
 			if err != nil {
@@ -134,6 +138,29 @@ func PushOrdersToQueue(producer sarama.SyncProducer, topic string, message []byt
 		offset)
 
 	return nil
+}
+
+func getProblemUrl(minRating int, maxRating int, db *sql.DB) string {
+	URL := "https://codeforces.com/problemset/problem/"
+	var problemId string
+	err := db.QueryRow(`
+    SELECT uniqueCode 
+    FROM problems 
+    WHERE points >= ? AND points <= ? 
+    ORDER BY RAND() 
+    LIMIT 1`, minRating, maxRating).Scan(&problemId)
+
+	URL += problemId
+
+	if err != nil {
+		if err == sql.ErrNoRows {
+			fmt.Println("No problem found with the given points range")
+		} else {
+			fmt.Println("Error fetching problem:", err)
+		}
+	}
+
+	return URL
 }
 
 // PICKER and executer are differnet

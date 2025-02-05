@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"log"
 	"os"
 	"os/signal"
@@ -27,6 +28,7 @@ func main() {
 		AllowNativePasswords: true,
 		ParseTime:            true,
 	})
+	fmt.Println(config.Envs.DBAddress)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -36,7 +38,7 @@ func main() {
 	topic := "problem-email"
 	group := "email-consumer-group"
 
-	consumerGroup, err := ConnectConsumerGroup([]string{"localhost:9092"}, group)
+	consumerGroup, err := ConnectConsumerGroup([]string{"kafka:9092"}, group)
 	if err != nil {
 		panic(err)
 	}

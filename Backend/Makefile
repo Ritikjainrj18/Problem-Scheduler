@@ -15,3 +15,6 @@ migrate-up:
 
 migrate-down:
 	@go run cmd/migrate/main.go down
+
+problem-add:
+	@go run cmd/addProblems/main.go 
