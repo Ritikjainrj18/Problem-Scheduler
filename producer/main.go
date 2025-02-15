@@ -6,12 +6,11 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/IBM/sarama"
 	"github.com/Ritikjainrj18/Problem-Scheduler/Backend/config"
 	"github.com/Ritikjainrj18/Problem-Scheduler/Backend/db"
 	"github.com/Ritikjainrj18/Problem-Scheduler/Backend/service/task"
 	"github.com/Ritikjainrj18/Problem-Scheduler/Backend/types"
-
-	"github.com/IBM/sarama"
 	"github.com/go-sql-driver/mysql"
 )
 
@@ -72,9 +71,10 @@ func main() {
 		rows.Close()
 
 		for _, tasks := range tasks {
-			log.Println("Processing task:", tasks)
 
-			tasks.ProblemURL = getProblemUrl(tasks.MinimumRating, tasks.MaximumRating)
+			tasks.ProblemURL = getProblemUrl(tasks.MinimumRating, tasks.MaximumRating, db)
+
+			log.Println("Processing task:", tasks)
 
 			taskBytes, err := json.Marshal(tasks)
 			if err != nil {
@@ -144,10 +144,10 @@ func getProblemUrl(minRating int, maxRating int, db *sql.DB) string {
 	URL := "https://codeforces.com/problemset/problem/"
 	var problemId string
 	err := db.QueryRow(`
-    SELECT uniqueCode 
-    FROM problems 
-    WHERE points >= ? AND points <= ? 
-    ORDER BY RAND() 
+    SELECT uniqueCode
+    FROM problems
+    WHERE points >= ? AND points <= ?
+    ORDER BY RAND()
     LIMIT 1`, minRating, maxRating).Scan(&problemId)
 
 	URL += problemId

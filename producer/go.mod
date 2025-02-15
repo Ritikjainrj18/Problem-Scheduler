@@ -3,8 +3,8 @@ module github.com/Ritikjainrj18/Problem-Scheduler/producer
 go 1.23.4
 
 require (
-	github.com/IBM/sarama v1.44.0
-	github.com/Ritikjainrj18/Problem-Scheduler/Backend v0.0.0-20250105173203-7a07d7fcf9e5
+	github.com/IBM/sarama v1.45.0
+	github.com/Ritikjainrj18/Problem-Scheduler/Backend v0.0.0-20250205191320-d67e23c6498c
 	github.com/go-sql-driver/mysql v1.8.1
 )
 
@@ -30,12 +30,12 @@ require (
 	github.com/jcmturner/gokrb5/v8 v8.4.4 // indirect
 	github.com/jcmturner/rpc/v2 v2.0.3 // indirect
 	github.com/joho/godotenv v1.5.1 // indirect
-	github.com/klauspost/compress v1.17.9 // indirect
+	github.com/klauspost/compress v1.17.11 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/pierrec/lz4/v4 v4.1.22 // indirect
 	github.com/rcrowley/go-metrics v0.0.0-20201227073835-cf1acfcdf475 // indirect
-	golang.org/x/crypto v0.31.0 // indirect
-	golang.org/x/net v0.33.0 // indirect
-	golang.org/x/sys v0.28.0 // indirect
+	golang.org/x/crypto v0.32.0 // indirect
+	golang.org/x/net v0.34.0 // indirect
+	golang.org/x/sys v0.29.0 // indirect
 	golang.org/x/text v0.21.0 // indirect
 )
